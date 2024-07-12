@@ -31,7 +31,7 @@ const Home = () => {
         } else if (email === "") {
             alert("Email field is required");
         } else if (!email.includes("@")) {
-            alert("Please enter a valid email address");
+            alert("Please enter a valid email addressss");
         } else if (date === "") {
             alert("Date field is required");
         } else if (password === "") {
