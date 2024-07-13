@@ -1,10 +1,13 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Sign_img from './Sign_img';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Home = () => {
-    const [input, setInput] = useState({
+    const navigate = useNavigate();
+
+    const [inpval, setInpval] = useState({
         name: "",
         email: "",
         date: "",
@@ -12,10 +15,14 @@ const Home = () => {
         confirmPassword: ""
     });
 
+    const [data, setData] = useState([]);
+
+    console.log(inpval);
+
     const getdata = (e) => {
         const { value, name } = e.target;
 
-        setInput(prevInput => ({
+        setInpval((prevInput) => ({
             ...prevInput,
             [name]: value
         }));
@@ -24,30 +31,34 @@ const Home = () => {
     const addData = (e) => {
         e.preventDefault();
 
-        const { name, email, date, password, confirmPassword } = input;
-        
+        const { name, email, date, password, confirmPassword } = inpval;
+
         if (name === "") {
-            alert("Name field is required");
+            alert('Name field is required!', { position: "top-center" });
         } else if (email === "") {
-            alert("Email field is required");
+            alert('Email field is required!', { position: "top-center" });
         } else if (!email.includes("@")) {
-            alert("Please enter a valid email addressss");
+            alert('Please enter a valid email address!', { position: "top-center" });
         } else if (date === "") {
-            alert("Date field is required");
+            alert('Date field is required!', { position: "top-center" });
         } else if (password === "") {
-            alert("Password field is required");
+            alert('Password field is required!', { position: "top-center" });
         } else if (password.length < 5) {
-            alert("Password length should be greater than five");
+            alert('Password length should be greater than five!', { position: "top-center" });
         } else if (password !== confirmPassword) {
-            alert("Passwords do not match");
+            alert('Passwords do not match!', { position: "top-center" });
         } else {
             console.log("Data added successfully");
-            // You can add further processing here, like sending the data to an API
+            const newData = [...data, inpval];
+            setData(newData);
+            localStorage.setItem("useryoutube", JSON.stringify(newData));
+            navigate("/login");
         }
     };
 
     return (
         <div className="container mt-4">
+            
             <section className='d-flex justify-content-between'>
                 <div className="left_data mt-3" style={{ width: "100%" }}>
                     <h3 className='text-center'>Sign Up</h3>
@@ -81,11 +92,11 @@ const Home = () => {
                             <Form.Check type="checkbox" label="Check me out" />
                         </Form.Group>
 
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" className='col-lg-6' onClick={addData} style={{ background: "rgb(67, 185, 127)" }} type="submit">
                             Submit
                         </Button>
                     </Form>
-                    <p className="mt-3">Already Have an Account? <span>Sign In</span></p>
+                    <p className="mt-3">Already Have an Account? <span><NavLink to="./Login">Sign In</NavLink></span></p>
                 </div>
                 <Sign_img />
             </section>
