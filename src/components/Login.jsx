@@ -61,7 +61,7 @@ const Login = () => {
                     alert("Error parsing user data. Please try again.");
                 }
             } else {
-                alert("User not founded. Please sign up.");
+                alert("User not founded. Please signn up.");
             }
         }
     };
